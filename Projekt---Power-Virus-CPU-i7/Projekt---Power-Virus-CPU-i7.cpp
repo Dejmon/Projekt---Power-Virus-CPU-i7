@@ -48,18 +48,31 @@ static void testFft(int n) {
 
 void test()
 {
-	long long int f = 0, g = 2, h = 5, p = 7, k = 4, l = 0, m = 3, n = 2, o = 6;
+	const long double a = 434343.435354;
+	register long long int  c = 5434, b = 555;
+	long long int  f = 0, g = 2, h = 5, p = 7, k = 4, l = 0, m = 3, n = 2, o = 6;
+
+	long long int *tab = new long long int[2343243];
+	for (int i = 0; i < 2343243; i++)
+	{
+		tab[i] = i;
+	}
 	while (1)
 	{
-		//3 ALU operations
-		//f = g + h;
-		//p = k + l;
-		//m = n + o;
+		//ALU operations
+		f = g + h;
+		p = k + l;
+		m = n + o;
+		//store_data long double data value in memory
+		tab[23] = a;
+		//store_addr value from register in memory
+		tab[56555] = b;
+		tab[4] = c;
 		// Test small size FFTs
-		for (int i = 0; i < _MAX_INT_DIG; i++)
+		/*for (int i = 0; i < _MAX_INT_DIG; i++)
 		{
-			testFft(i);
-		}
+		testFft(i);
+		}*/
 	}
 }
 
