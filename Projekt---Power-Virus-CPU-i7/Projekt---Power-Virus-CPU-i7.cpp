@@ -1,26 +1,65 @@
 // Projekt---Power-Virus-CPU-i7.cpp : Defines the entry point for the console application.
 //
+#define _USE_MATH_DEFINES
 
 #include "stdafx.h"
-#include <thread>
-#include <iostream>
-#include <windows.h>
-#include <random>
 
-#define NUM_OF_CORES 8
+using std::cout;
+using std::endl;
+using std::vector;
+
+/* Naive reference computation functions */
+
+static void naiveDft(const vector<double> &inreal, const vector<double> &inimag, vector<double> &outreal, vector<double> &outimag, bool inverse) {
+	int n = inreal.size();
+	double coef = (inverse ? 2 : -2) * M_PI;
+	for (int k = 0; k < n; k++) {  // For each output element
+		double sumreal = 0;
+		double sumimag = 0;
+		for (int t = 0; t < n; t++) {  // For each input element
+			double angle = coef * ((long long)t * k % n) / n;
+			sumreal += inreal[t] * cos(angle) - inimag[t] * sin(angle);
+			sumimag += inreal[t] * sin(angle) + inimag[t] * cos(angle);
+		}
+		outreal[k] = sumreal;
+		outimag[k] = sumimag;
+	}
+}
+static void randomReals(vector<double> &vec) {
+	for (vector<double>::iterator it = vec.begin(); it != vec.end(); ++it)
+		*it = (rand() / (RAND_MAX + 1.0)) * 2 - 1;
+}
+static void testFft(int n) {
+	vector<double> inputreal(n);
+	vector<double> inputimag(n);
+	randomReals(inputreal);
+	randomReals(inputimag);
+
+	vector<double> refoutreal(n);
+	vector<double> refoutimag(n);
+	naiveDft(inputreal, inputimag, refoutreal, refoutimag, false);
+
+	vector<double> actualoutreal(inputreal);
+	vector<double> actualoutimag(inputimag);
+	Fft::transform(actualoutreal, actualoutimag);
+
+}
+
 
 void test()
 {
-	long double c = 0.0, a = 3.5434, b = 43.2322, d = 0.4, e = 0.0;
-	int f = 0, g = 2, h = 5;
-	for (int i = 0; i < 1000000000000; i++)
+	long long int f = 0, g = 2, h = 5, p = 7, k = 4, l = 0, m = 3, n = 2, o = 6;
+	while (1)
 	{
-		//fdiv
-		c = a / b;
-		//fadd
-		e = a + b;
-		//ALU div
-		f = h / g;
+		//3 ALU operations
+		//f = g + h;
+		//p = k + l;
+		//m = n + o;
+		// Test small size FFTs
+		for (int i = 0; i < _MAX_INT_DIG; i++)
+		{
+			testFft(i);
+		}
 	}
 }
 
