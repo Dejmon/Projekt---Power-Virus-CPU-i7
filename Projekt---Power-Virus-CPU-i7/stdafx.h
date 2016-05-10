@@ -6,7 +6,7 @@
 #pragma once
 #define _USE_MATH_DEFINES
 #define M_PI       3.14159265358979323846
-#define NUM_OF_CORES 8
+#define NUM_OF_THREADS 2
 #include "targetver.h"
 #include <cmath>
 #include <cstdint>

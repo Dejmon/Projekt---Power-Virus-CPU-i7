@@ -78,13 +78,16 @@ void test()
 
 int _tmain(int argc, _TCHAR* argv[])
 {
-	std::thread *thread_tab = new std::thread[8];
-	for (int i = 0; i < NUM_OF_CORES; i++)
+	//pobranie informacji o iloœci w¹tków procesora
+	unsigned int nthreads = std::thread::hardware_concurrency();
+	//tworzenie w¹tków
+	std::thread *thread_tab = new std::thread[nthreads];
+	for (int i = 0; i < nthreads; i++)
 	{
 		thread_tab[i] = std::thread(test);
-		std::cout << "Startuje watek: " << i << std::endl;
+		cout << "Startuje watek: " << i << std::endl;
 	}
-	for (int i = 0; i < NUM_OF_CORES; i++)
+	for (int i = 0; i < 2; i++)
 	{
 		//czekamy, a¿ w¹tki przestan¹ pracowaæ - umr¹, nastêpuje ich synchronizacja
 		thread_tab[i].join();
